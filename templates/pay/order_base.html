@@ -1,0 +1,78 @@
+# coding: utf-8
+<!DCTYPE html>
+<html>
+<head>
+<title>收银台</title>
+<meta charset="UTF-8">
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-touch-fullscreen" content="yes">
+
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta name="format-detection" content="telephone=no" />
+
+<link rel="stylesheet" type="text/css" href="/static/pay/css/order.css" media="screen" />
+<script src="/static/pay/js/zepto.min.js" type="text/javascript" ></script>
+<%block name="head_media" />
+</head>
+<body>
+<div class="mask">
+<div class="mask-arrow"></div>
+<div class="mask-hint">
+<div class="hint-box">
+<div class="warnning-font-size">1.请点击右上角三个点的图标</div>
+<div class="warnning-font-size">2.选择手机自带浏览器打开后支付</div>
+</div>
+</div>
+<button class="mask-btn">关闭</button>
+</div>
+<div class="details-box">
+% if mchnt_name:
+<p class="detail-font"><span class="left-span">商户名称</span><span class="right-span">${mchnt_name}</span></p>
+% endif
+% if goods_name:
+<p class="detail-font"><span class="left-span">订单名称</span><span class="right-span">${goods_name}</span></p>
+% endif
+% if goods_info:
+<p class="detail-font"><span class="left-span">订单详情</span><span class="right-span">${goods_info}</span></p>
+% endif
+% if out_sn:
+<p class="detail-font"><span class="left-span">订单编号</span><span class="right-span">${out_sn}</span></p>
+% endif
+% if address:
+<p class="detail-font"><span class="left-span">联系地址</span><span class="right-span">${address}</span></p>
+% endif
+% if mobile:
+<p class="detail-font"><span class="left-span">联系电话</span><span class="right-span">${mobile}</span></p>
+% endif
+% if total_amt:
+<p class="detail-font"><span class="left-span">订单金额</span><b class="right-span amt">${'{:,.2f}'.format(int(total_amt)/100.0)}元</b></p>
+% endif
+</div>
+<%block name="top_box" />
+<div class="payments-model-box box" >
+<header class="order-details">
+<span class="little-span">选择支付方式</span>
+</header>
+
+<%block name="bottom_box" />
+</div>
+
+<footer >
+<span class="pspan">实付款：</span><b class="total amt" id="id-pay-amt">${int(total_amt)/100.0}</b><b class="total amt">元</b>
+<button class="btn" id="id-submit">确认支付</button>
+</footer>
+
+
+<input type="hidden" id="id-app_code" value="0">
+<input type="hidden" id="id-out_sn" value="${out_sn}">
+##<input type="hidden" id="id-token" value="${token}">
+##<input type="hidden" id="id-order_token" value="${order_token}">
+<input type="hidden" id="id-mobile" value="${mobile}">
+<input type="hidden" id="id-goods_name" value="${goods_name}">
+<input type="hidden" id="id-mchnt_name" value="${mchnt_name}">
+<input type="hidden" id="id-amt" value="${total_amt}" />
+<input type="hidden" id="id-openid" value="${openid}" />
+</body>
+</html>  
+

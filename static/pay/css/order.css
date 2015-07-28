@@ -1,0 +1,313 @@
+html,body {
+    width: 100%;
+    max-width: 400px;
+    margin: auto auto;
+    padding: 0;
+    border: none;
+    font-size: 100%;
+    vertical-align: baseline;
+    font-family: "Microsoft Yahei", "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", STHeiti !important;
+    height: 100%;
+    background-color: #F8F7F7;
+}
+
+html {
+    background-color: #efefef;
+}
+
+p {
+    -webkit-margin-before: 0em;
+    -webkit-margin-after: 0em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+}
+
+footer {
+    background-color: #e9e9e9;
+    height: 56px;
+    position: fixed;
+    float: none;
+    bottom: 0;
+    width: 100%;
+    max-width: 400px;
+    border-top: 1px solid #dfdfdf;
+}
+
+input[type="radio"], input[type="checkbox"] {
+    margin: 3px 3px 0px 5px;
+    display: none;
+}
+
+input[type="radio"] + label, input[type="checkbox"] + label {
+    background: url("/static/pay/image/quan.png");
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+    padding: 0 0 0 0px;
+}
+
+input[type="radio"]:checked + label,  input[type="checkbox"]:checked + label {
+    background: url("/static/pay/image/duigou.png");
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+    padding: 0 0 0 0px;
+}
+
+.detail-font {
+    margin-left: 17px;
+    margin-right: 17px;
+    font-size: 13px;
+    color: white;
+    display: block;
+    height: 22px;
+    line-height:22px;
+}
+
+span {
+    -webkit-margin-before: 0em;
+    -webkit-margin-after: 0em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+}
+
+.left-span {
+float: left;
+position: relative;
+}
+
+.right-span {
+float: right;
+position: relative;
+}
+
+.little-span {
+margin: 0 0;
+padding: 0 10px;
+}
+
+.box {
+background: white;
+width: 100%;
+       border-bottom: 1px solid #dfdfdf;
+}
+
+.details-box {
+background: #49565f;
+width: 100%;
+       padding-bottom: 8px;
+       padding-top: 8px;
+       border-bottom: 1px solid #dfdfdf;
+}
+
+.order-details {
+width: 100%;
+       border-bottom: 1px solid #dfdfdf;
+       font-size: 13px;
+padding: 8px 0;
+color: #abaaaa;
+       background-color: #F8F7F7;
+}
+
+.select {
+width: 60%;
+height: 42px;
+float: right;
+display: block;
+border: none;
+        font-size: 15px;
+position: relative;
+          margin-left: 17px;
+color: #494949;
+outline: none;
+         -webkit-appearance: none;
+overflow: hidden;
+          /*隐藏了小三角，因为宽度为110px,而select宽度为130px*/
+          border-width: 0px;
+          border-top-style: none;
+          border-right-style: none;
+          border-left-style: none;
+          border-bottom-style: none;
+
+          background-image: url('/static/pay/image/jiantou.png');
+          background-repeat: no-repeat;
+          background-position: center right;
+          background-size: 20px 20px;
+          background-color: transparent;
+}
+
+.coupon-hint {
+    margin-top: 11px;
+display: inline-block;
+}
+
+.arrow {
+    margin-top: 12px;
+float: right;
+height: 21px;
+}
+
+.coupon-amt {
+    margin-top: 12px;
+    font-size: 14px;
+color: #f46610;
+float: right;
+}
+
+.select-box, .radio-box, .check-box {
+display: inline-block;
+float: right;
+       margin-right: 17px;
+       font-size:26px
+}
+
+.select-box{
+height: 42px;
+overflow: hidden;
+}
+
+.logo-box {
+display: inline-block;
+height: 40px;
+position: absolute;
+          margin-bottom: 10px;
+}
+
+.span-box {
+display: inline-block;
+position: relative;
+          margin-left: 40px;
+}
+
+.pay-tool-box {
+    line-height: 42px;
+    margin-left: 17px;
+    border-bottom: 1px solid #dfdfdf;
+}
+
+.weixin-pay, .arrive-pay, .alipay-pay  {
+height: 25px;
+display: inline-block;
+margin: 10px 0px;
+}
+
+.btn {
+width: 130px;
+color: white;
+       font-size: 16px;
+height: 40px;
+display: inline-block;
+         text-align: center;
+         border-radius: 4px;
+float: right;
+position: relative;
+          margin-right: 17px;
+          margin-top: 8px;
+border: 1px #f46610 solid;
+        background-color: #f46610;
+}
+
+.total {
+    font-size: 20px;
+    font-weight: bold;
+    padding-top: 14px;
+    padding-bottom: 14px;
+display: inline-block;
+}
+
+.pspan {
+    font-size: 13px;
+    padding-left: 17px;
+}
+
+.amt {
+color: #f46610;
+}
+
+.margin-label {
+    padding-left: 17px;
+    font-size: 14px;
+display: block;
+}
+
+.coupon-box .margin-label{
+    padding-right: 17px;
+}
+
+.span-font {
+    font-size: 14px;
+}
+.balance-box, .coupon-box {
+height:42px;
+       line-height: 42px;
+}
+
+.mask {
+width: 100%;
+       max-width: 400px;
+height: 100%;
+        z-index: 30;
+background: url("/static/pay/image/mask-background.png");
+position: fixed;
+opacity: 1;
+         -moz-opacity: 1;
+filter: alpha(opacity=1);
+display: none;
+}
+
+.mask-btn {
+width: 40%;
+height: 40px;
+margin: 70px auto;
+position: relative;
+          z-index: 50;
+display: block;
+         border-radius: 9px;
+border: 2px solid #f46610;
+        font-size: 20px;
+color: #f46610;
+       font-family: "微软雅黑";
+       background-color: transparent;
+}
+
+.mask-arrow {
+width: 35px;
+height: 46px;
+right: 5%;
+       margin-top: 10px;
+       margin-left: auto;
+background: url("/static/pay/image/arrow.png");
+            background-size: 100% 100%;
+            background-position: center;
+position: relative;
+          background-repeat: no-repeat;
+}
+
+.mask-hint {
+width: 93%;
+       margin-left: 5%;
+height: 110px;
+        background-color: #f46610;
+margin: auto auto;
+position: relative;
+          border-radius: 8px;
+}
+
+.hint-box {
+width: 80%;
+       padding-top: 6%;
+       padding-left: 6%;
+height: 80px;
+        font-family: "微软雅黑";
+color: #ffffff;
+}
+
+.warnning-font-size {
+    line-height: 20px;
+    font-size: 16px;
+    margin-top: 10px;
+}

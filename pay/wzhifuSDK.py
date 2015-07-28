@@ -62,10 +62,9 @@ class WxPayConf_pub(object):
     #商户支付密钥Key。审核通过后，在微信发送的邮件中查看
     KEY = "48888888888888888888888888888886"
    
-
     #=======【异步通知url设置】===================================
     #异步通知url，商户根据实际开发过程设定
-    NOTIFY_URL = "http://******.com/payback"
+    NOTIFY_URL = "/pay/notify"
 
     #=======【JSAPI路径设置】===================================
     #获取access_token过程中的跳转uri，通过跳转将code传入jsapi支付页面
@@ -82,6 +81,15 @@ class WxPayConf_pub(object):
     #=======【HTTP客户端设置】===================================
     HTTP_CLIENT = "CURL"  # ("URLLIB", "CURL")
 
+    @classmethod
+    def config(cls, db, merid):
+        ret = db.select_one('merchant_wxconfig', where={'merid': merid, 'is_deleted': 0})
+        if not ret:
+            return None
+        cls.APPID = ret['appid']
+        cls.APPSECRET = ret['appsecret']
+        cls.MCHID = ret['wx_mchid']
+        cls.KEY = ret['wx_partnerkey']
 
 class Singleton(object):
     """单例模式"""
@@ -132,7 +140,6 @@ class CurlClient(object):
         """不使用证书"""
         return self.postXmlSSL(xml, url, second=second, cert=False, post=True)
         
-
     def postXmlSSL(self, xml, url, second=30, cert=True, post=True):
         """使用证书"""
         self.curl.setopt(pycurl.URL, url)
@@ -351,7 +358,7 @@ class UnifiedOrder_pub(Wxpay_client_pub):
     def createXml(self):
         """生成接口参数xml"""
         #检测必填参数
-        if any(self.parameters[key] is None for key in ("out_trade_no", "body", "total_fee", "notify_url", "trade_type")):
+        if any(self.parameters[key] is None for key in ("out_trade_no", "notify_url", "body", "total_fee", "trade_type")):
             raise ValueError("missing parameter")
         if self.parameters["trade_type"] == "JSAPI" and self.parameters["openid"] is None:
             raise ValueError("JSAPI need openid parameters")
@@ -592,7 +599,7 @@ class NativeLink_pub(Common_util_pub):
         self.parameters["time_stamp"] = "{0}".format(time_stamp)  #时间戳
         self.parameters["nonce_str"] = self.createNoncestr()  #随机字符串
         self.parameters["sign"] = self.getSign(self.parameters)  #签名          
-        bizString = self.formatBizQueryParaMap(self.parameters, False)
+        bizString = self.formatBizQueryParaMap(self.parameters, false)
         self.url = "weixin://wxpay/bizpayurl?"+bizString
 
     def getUrl(self):
