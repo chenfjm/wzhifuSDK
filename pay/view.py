@@ -12,14 +12,19 @@ class Wap(tornado.web.RequestHandler):
     def get_req_param(self):
         '''获取参数'''
 
-        data = {}
-        #input = self.request.arguments
+        data = {'openid': ''}
+        input = self.request.arguments
+        code = input.get('code')
+        jsapi = wxpay.JsApi_pub()
+        if code:
+            jsapi.setCode(code)
+            data['openid'] = jsapi.getOpenid()
+        else:
+            merid = input.get('merid')
+            redirectUrl = 'http://{0}/pay/wap?merid={1}'.format(self.request.host, merid)
+            url = jsapi.createOauthUrlForCode(redirectUrl)
+            self.redirect(url)
         input = {'out_sn': '1234567894', 'total_amt': '1', 'address': '望京融科', 'goods_name': '支付测试'}
-        #data['token'] = input.get('token','').strip()
-        #data['code'] = input.get('code','').strip()
-        #data['openid'] = input.get('openid','').strip()
-        data['openid'] = self.ses.get('openid', '0')
-        #data['order_token'] = input.get('order_token','').strip()
 
         data['out_sn'] = input.get('out_sn','').strip()
         data['total_amt'] = input.get('total_amt','').strip()
@@ -68,7 +73,7 @@ class PrePay(tornado.web.RequestHandler):
             #unified_order.setParameter('out_trade_no',input['out_trade_no'])
             unified_order.setParameter('out_trade_no',input['out_sn'])
             unified_order.setParameter('total_fee',input['total_amt'])
-            unified_order.setParameter('notify_url', '{0}{1}'.format(self.req.host, wxpay.WxPayConf_pub.NOTIFY_URL))
+            unified_order.setParameter('notify_url', '{0}{1}'.format(self.requset.host, wxpay.WxPayConf_pub.NOTIFY_URL))
             unified_order.setParameter('openid', openid)
             unified_order.setParameter('trade_type','JSAPI')
             prepay_id = unified_order.getPrepayId()

@@ -58,6 +58,7 @@ $(function(){
                 pay_type : par_pay_type,
                 out_sn : par_out_sn,
                 goods_name : par_goods_name,
+                openid: par_openid,
             },
             success : function(data) {
                 data = JSON.parse(data);
