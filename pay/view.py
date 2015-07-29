@@ -4,6 +4,7 @@ import time
 import tornado
 import types
 import wxpay
+import random
 
 #import config
 
@@ -24,7 +25,8 @@ class Wap(tornado.web.RequestHandler):
             redirectUrl = 'http://{0}/pay/wap?merid={1}'.format(self.request.host, merid)
             url = jsapi.createOauthUrlForCode(redirectUrl)
             self.redirect(url)
-        input = {'out_sn': '1234567894', 'total_amt': '1', 'address': '望京融科', 'goods_name': '支付测试'}
+        out_sn = ''.join(random.sample('0123456789', 8))
+        input = {'out_sn': out_sn, 'total_amt': '1', 'address': '望京融科', 'goods_name': '支付测试'}
 
         data['out_sn'] = input.get('out_sn','').strip()
         data['total_amt'] = input.get('total_amt','').strip()
