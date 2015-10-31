@@ -85,11 +85,13 @@ class WxPayConf_pub(object):
     def config(cls, db, merid):
         ret = db.select_one('merchant_wxconfig', where={'merid': merid, 'is_deleted': 0})
         if not ret:
-            return None
+            return False
         cls.APPID = ret['appid']
         cls.APPSECRET = ret['appsecret']
         cls.MCHID = ret['wx_mchid']
         cls.KEY = ret['wx_partnerkey']
+        log.info('appid=%s|appsecret=%s|mchid=%s|key=%s|' % (cls.APPID, cls.APPSECRET, cls.MCHID, cls.KEY))
+        return True
 
 class Singleton(object):
     """单例模式"""
@@ -275,7 +277,7 @@ class JsApi_pub(Common_util_pub):
         """通过curl向微信提交code，以获取openid"""
         url = self.createOauthUrlForOpenid()
         data = HttpClient().get(url)
-        self.openid = json.loads(data)["openid"]
+        self.openid = json.loads(data).get("openid")
         return self.openid
         
     
@@ -287,7 +289,7 @@ class JsApi_pub(Common_util_pub):
         """设置code"""
         self.code = code
 
-    def  getParameters(self):
+    def  getParameters(self, params=None):
         """设置jsapi的参数"""
         jsApiObj = {}
         jsApiObj["appId"] = WxPayConf_pub.APPID
@@ -297,10 +299,11 @@ class JsApi_pub(Common_util_pub):
         jsApiObj["package"] = "prepay_id={0}".format(self.prepay_id)
         jsApiObj["signType"] = "MD5"
         jsApiObj["paySign"] = self.getSign(jsApiObj)
+        if params:
+            jsApiObj.update(params)
         self.parameters = json.dumps(jsApiObj)
 
         return self.parameters
-
 
 class Wxpay_client_pub(Common_util_pub):
     """请求型接口的基类"""
@@ -311,7 +314,6 @@ class Wxpay_client_pub(Common_util_pub):
     def __init__(self):
         self.parameters = {} #请求参数，类型为关联数组
         self.result = {}     #返回参数，类型为关联数组
-
 
     def setParameter(self, parameter, parameterValue):
         """设置请求参数"""
@@ -354,7 +356,6 @@ class UnifiedOrder_pub(Wxpay_client_pub):
         self.curl_timeout = timeout
         super(UnifiedOrder_pub, self).__init__()
 
-
     def createXml(self):
         """生成接口参数xml"""
         #检测必填参数
@@ -372,10 +373,14 @@ class UnifiedOrder_pub(Wxpay_client_pub):
 
     def getPrepayId(self):
         """获取prepay_id"""
-        self.postXml()
-        self.result = self.xmlToArray(self.response)
-        prepay_id = self.result["prepay_id"]
-        return prepay_id
+        try:
+            self.postXml()
+            self.result = self.xmlToArray(self.response)
+            log.info('prepay_result=%s' % self.result)
+            prepay_id = self.result["prepay_id"]
+            return prepay_id
+        except Exception:
+            return
 
 
 class OrderQuery_pub(Wxpay_client_pub):
@@ -392,7 +397,7 @@ class OrderQuery_pub(Wxpay_client_pub):
         """生成接口参数xml"""
 
         #检测必填参数
-        if any(self.parameters[key] is None for key in ("out_trade_no", "transaction_id")):
+        if self.parameters.get("out_trade_no") is None:
             raise ValueError("missing parameter")
 
         self.parameters["appid"] = WxPayConf_pub.APPID  #公众账号ID
